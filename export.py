@@ -1,9 +1,7 @@
 from canvasapi import Canvas
 import requests
 import traceback
-import jsonpickle
 import json
-import dateutil.parser
 import os
 import string
 
@@ -31,10 +29,9 @@ def makeValidFilename(input_str):
 
     return input_str
 
-def json_to_file(content, output_dir, filename): #ALE
+def json_to_file(content, output_dir, filename):
     try:
-        # Awful hack to make the JSON pretty. Decode it with Python stdlib json module then re-encode with indentation
-        json_str = json.dumps(json.loads(jsonpickle.encode(content, unpicklable=False)), indent=4)
+        json_str = json.dumps(content, indent=4)
 
         # Create directory if not present
         if not os.path.exists(output_dir):
@@ -49,11 +46,11 @@ def json_to_file(content, output_dir, filename): #ALE
         print("\033[1mSkipping json dump of %s%s due to the following error:\033[0m" % (output_dir, filename))
         print(e)
 
-def downloadCourse(course, output_dir): #ALE
+def downloadCourse(course, output_dir):
     json_to_file(course.attributes, output_dir, "course_" + str(course.id) + ".json")
     # Consider to save announcements, discussions, pages, modules
 
-def download(url, output_dir, filename): #ALE
+def download(url, output_dir, filename):
     """
     Download the file in a url to specified location.
 
@@ -78,24 +75,23 @@ def download(url, output_dir, filename): #ALE
         print(e)
         print('')
 
-def downloadCourseFiles(course): #ALE
+def downloadCourseFiles(course):
     try:
         assignments = course.get_assignments()
         for assignment in assignments:
             # Download assignment json
             assignment_dir = OUT_DIR + "/" + course.term['name'] + "/" + course.course_code + "/assignment_" + str(assignment.id) + "/"
             print('    Downloading json for assignment "%s" to %s' % (assignment.attributes['name'], assignment_dir + str(assignment.id) + '.json'))
-            json_to_file(assignment.attributes, assignment_dir, "assignment_" + str(assignment.id)+'.json') #I think assignment.attributes is enough
+            json_to_file(assignment.attributes, assignment_dir, "assignment_" + str(assignment.id)+'.json')
 
             # Download submissions and their attachments
             submissions = assignment.get_submissions(include=['submission_comments','full_rubric_assessment']) #'course', 'user', 'submission_history', '
             for submission in submissions:
                 submission_dir = assignment_dir + "submission_" + str(submission.id) + "/"
-                json_to_file(submission.attributes, submission_dir, "submission_" + str(submission.id) + '.json') #I think assignment.attributes is enough
+                json_to_file(submission.attributes, submission_dir, "submission_" + str(submission.id) + '.json')
 
                 if hasattr(submission, "attachments"):
                     for attachment in submission.attachments:
-                        #print('    Downloading submission attachment to %s' % submission_dir + "attachments/" + makeValidFilename(str(attachment['display_name'])))
                         download(attachment['url'], submission_dir + "attachments/", str(attachment['display_name']))
 
                 # Download comments and their attachments
@@ -105,7 +101,6 @@ def downloadCourseFiles(course): #ALE
                     json_to_file(sub_comment, comment_dir, "comment_" + str(sub_comment['id']) + '.json')
                     if "attachments" in sub_comment.keys( ):
                         for sub_comment_attachment in sub_comment['attachments']:
-                            #print('    Downloading submission comment attachment to %s' % comment_dir + makeValidFilename(str(sub_comment_attachment['display_name'])))
                             download(sub_comment_attachment['url'], comment_dir, sub_comment_attachment['display_name'])
 
     except Exception as e:
