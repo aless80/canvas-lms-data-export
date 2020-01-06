@@ -1,0 +1,4 @@
+API_URL=https://canvas.instructure.com
+API_KEY=7~iVacrs5SG97A1MdWTMCjypZUsdkNeaJvtTGytJngbPpq6FJPDvMYjkV7lQilKI29
+OUT_DIR=export
+COURSES_TO_SKIP=785215,111111
