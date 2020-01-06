@@ -16,7 +16,14 @@ To export data from Canvas LMS you need two pieces of information:
 You need administration privileges on the courses you want to export. 
 
 ## Running the script
+
+Export all data:  
+
 `python export.py`
+
+Print out course, assignment, submission IDs and files without downloading them:  
+
+`python export.py --no_download`
 
 ## Optional Configuration
 This script will prompt the user for getting the API URL and API KEY. 
@@ -26,9 +33,11 @@ However, you can configure create a .env in this repository using the example fi
 The parameters that can be configured in .env are:
 - Canvas API URL
 - Canvas API key
-- Comma separated list of Course IDs that should be skipped
 - Output directory (default: "export")
+- Comma separated list of Course IDs that should be skipped
+- Comma separated list of Assignment IDs that should be skipped
 
+Tip: run `python export.py --no_download` to get the Course IDs and Assignment IDs without downloading them
 
 # Export
 The exported data include raw json data that can be downloaded using [Canvas API](https://canvasapi.readthedocs.io/en/latest/index.html), and submission attachments to submissions. 
