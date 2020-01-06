@@ -10,7 +10,7 @@ These include canvasapi and requests.
 
 ## Canvas API
 To export data from Canvas LMS you need two pieces of information: 
-* API KEY, which can be generated in your Canvas log in page as described in [this post](https://community.canvaslms.com/docs/DOC-14409-4214861717)
+* API KEY, which can be generated in your Canvas log in page under Profile > Settings > Approved Integrations
 * API URL i.e. your organization's Canvas Base URL, which is the URL of your Canvas LMS page where you log in to
 
 You need administration privileges on the courses you want to export. 
