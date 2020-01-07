@@ -39,10 +39,11 @@ def makeValidFilename(input_str):
 
 def json_to_file(content, output_dir, filename, msg = ''):
     try:
+        print(msg)
         if NO_DOWNLOAD is True:
-            print(msg)
+            pass
         else:
-            print(msg + ' to %s/%s' % (output_dir, filename))
+            #print(msg + ' to %s/%s' % (output_dir, filename))
             json_str = json.dumps(content, indent=4)
 
             # Create directory if not present
@@ -60,10 +61,11 @@ def json_to_file(content, output_dir, filename, msg = ''):
 
 def download_file(url, output_dir, filename, msg = ''):
     try:
+        print(msg)
         if NO_DOWNLOAD is True:
-            print(msg)
+            pass
         else:
-            print(msg + ' to %s/%s' % (output_dir, filename))
+            #print(msg + ' to %s/%s' % (output_dir, filename))
             response = requester.request("GET", _url=url)
 
             # Create directory if not present
@@ -127,6 +129,7 @@ def download_submission(submission, output_dir):
     # Loop through comments and download them
     for sub_comment in submission.submission_comments:
         comment_dir = output_dir + "comment_" + str(sub_comment['id']) + "/"
+        sub_comment['submission_id'] = submission.id
         download_assignment_comment(sub_comment, comment_dir)
 
 
