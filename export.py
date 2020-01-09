@@ -89,7 +89,7 @@ def download_course(course):
         course_output_dir = OUT_DIR + "/" + course.term['name'] + "/" + course.course_code + "/"
         msg = 'Downloading json for course %s "%s"' % (course.id, course.attributes['name'])
         json_to_file(course.attributes, course_output_dir, "course_" + str(course.id) + ".json", msg)
-        #Alessandro: Consider to save announcements, discussions, pages, modules
+
 
         # Loop through Assignments
         assignments = course.get_assignments()
@@ -136,11 +136,11 @@ def download_submission(submission, output_dir):
 def download_assignment_comment(comment, output_dir):
     # Download comment json and any attachment
     msg = '    Downloading json for comment %s' % str(comment['id'])
-    json_to_file(comment, output_dir, "comment_" + str(comment['id']) + '.json', msg)
+    #json_to_file(comment, output_dir, "comment_" + str(comment['id']) + '.json', msg)
     if "attachments" in comment.keys():
         for sub_comment_attachment in comment['attachments']:
             msg = '        Downloading attachment: %s' % str(sub_comment_attachment['display_name'])
-            download_file(sub_comment_attachment['url'], output_dir, sub_comment_attachment['display_name'], msg)
+            download_file(sub_comment_attachment['url'], output_dir + 'attachments/', sub_comment_attachment['display_name'], msg)
 
 def get_user_id():
     # Canvas User ID

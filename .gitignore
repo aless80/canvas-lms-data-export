@@ -3,4 +3,3 @@ export/*
 .env
 venv/*
 .ipynb_checkpoints/*
-*.ipynb
