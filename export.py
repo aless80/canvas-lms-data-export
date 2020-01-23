@@ -142,11 +142,10 @@ def download_assignment_comment(comment, output_dir):
             msg = '        Downloading attachment: %s' % str(sub_comment_attachment['display_name'])
             download_file(sub_comment_attachment['url'], output_dir + 'attachments/', sub_comment_attachment['display_name'], msg)
 
-def get_user_id():
+def get_user_id(canvas):
     # Canvas User ID
-    import requests
-    user_info = requests.get(API_URL + "/api/v1/users/self/profile?access_token=" + API_KEY)
-    return json.loads(user_info.text)['id']
+    user = canvas.get_user('self')
+    return user.id
 
 def main():
     print("Welcome to the Canvas Data Export Tool\n")
