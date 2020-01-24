@@ -1,12 +1,13 @@
 # Description
-This script can be used by teachers to download data about courses and student submissions from Instructure Canvas Learning Management System [Canvas LMS](https://www.instructure.com/canvas/).  
+This utility can be used to download data about courses and student submissions from Canvas Learning Management System](https://www.instructure.com/canvas/) by Instructure.  
 
 
 # Getting Started
 ## Dependencies
 To run the program, install the dependencies listed in the requirements.txt file:  
 `pip install -r requirements.txt --user`  
-These include canvasapi and requests.
+So far the requirements only include [CanvasAPI](https://github.com/ucfopen/canvasapi), so you could simply run 
+`pip install canvasapi --user`  
 
 ## Canvas API
 To export data from Canvas LMS you need two pieces of information: 
