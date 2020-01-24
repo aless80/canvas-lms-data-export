@@ -6,8 +6,7 @@ This utility can be used to download data about courses and student submissions 
 ## Dependencies
 To run the program, install the dependencies listed in the requirements.txt file:  
 `pip install -r requirements.txt --user`  
-So far the requirements only include [CanvasAPI](https://github.com/ucfopen/canvasapi), so you could simply run 
-`pip install canvasapi --user`  
+Note that the requirements include [CanvasAPI](https://github.com/ucfopen/canvasapi), which is the library used in this utility to download json data and files.  
 
 ## Canvas API
 To export data from Canvas LMS you need two pieces of information: 
@@ -40,13 +39,20 @@ The parameters that can be configured in .env are:
 
 Tip: run `python export.py --no_download` to get the Course IDs and Assignment IDs without downloading them
 
-# Export
+## Export
 The exported data include raw json data that can be downloaded using [Canvas API](https://canvasapi.readthedocs.io/en/latest/index.html), and submission attachments to submissions. 
 In particular, the exported json files include: courses, assignments, submissions. The rubrics and full rubric assessments are included in the exported files
 
-# Possible further development
+## Reading the data using Python
+Check the [Process_export.ipynb](https://github.com/aless80/canvas-lms-data-export/blob/master/Process_export.ipynb) notebook and an example of dataframes extracted to the pickle file *example_dataframes.pkl*:
+```
+with open('example_dataframes.pkl', 'rb') as f: 
+	df_files, df_rubrics, df_rubricsubmitted = pickle.load(f)
+```
+
+## Possible further development
 * Consider to save announcements, discussions, pages, modules, other attachment files
 * Consider to implement anonymization
 
-# Credits
+## Credits
 [David Katsandres](https://github.com/davekats)'s script [canvas-student-data-export](https://github.com/davekats/canvas-student-data-export). 
