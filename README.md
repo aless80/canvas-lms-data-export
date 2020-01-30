@@ -1,5 +1,5 @@
 # Description
-This utility can be used to download data about courses and student submissions from Canvas Learning Management System](https://www.instructure.com/canvas/) by Instructure.  
+This utility can be used to download data about courses and student submissions from [Canvas Learning Management System](https://www.instructure.com/canvas/) by Instructure.  
 
 
 # Getting Started
