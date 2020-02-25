@@ -8,9 +8,11 @@ import string
 
 # Command options
 unixOptions = ""
-gnuOptions = ["no_download"]
+gnuOptions = ["no_download", "verbose"]
 # No downloads, just print IDs
 NO_DOWNLOAD = False
+# Verbosity
+VERBOSE = False
 # Canvas API URL
 API_URL = ""
 # Canvas API key
@@ -39,7 +41,7 @@ def makeValidFilename(input_str):
 
 def json_to_file(content, output_dir, filename, msg = ''):
     try:
-        print(msg)
+        print(msg, end="")
         if NO_DOWNLOAD is True:
             pass
         else:
@@ -61,7 +63,7 @@ def json_to_file(content, output_dir, filename, msg = ''):
 
 def download_file(url, output_dir, filename, msg = ''):
     try:
-        print(msg)
+        print(msg, end="")
         if NO_DOWNLOAD is True:
             pass
         else:
@@ -87,7 +89,7 @@ def download_course(course):
     try:
         # Download course json
         course_output_dir = OUT_DIR + "/" + course.term['name'] + "/" + course.course_code + "/"
-        msg = 'Downloading json for course %s "%s"' % (course.id, course.attributes['name'])
+        msg = 'Downloading json for course %s "%s" \n' % (course.id, course.attributes['name'])
         json_to_file(course.attributes, course_output_dir, "course_" + str(course.id) + ".json", msg)
 
 
@@ -107,7 +109,7 @@ def download_course(course):
 def download_assignment(course, assignment):
     # Download assignment json
     assignment_dir = OUT_DIR + "/" + course.term['name'] + "/" + course.course_code + "/assignment_" + str(assignment.id) + "/"
-    msg = '  Downloading json for assignment %s "%s"' % (assignment.id, assignment.attributes['name'])
+    msg = '  Downloading json for assignment %s "%s" \n' % (assignment.id, assignment.attributes['name'])
     json_to_file(assignment.attributes, assignment_dir, "assignment_" + str(assignment.id)+'.json', msg)
 
     # Loop through Submissions and download them
@@ -119,11 +121,13 @@ def download_assignment(course, assignment):
 def download_submission(submission, output_dir):
     # Download submission json and any attachment
     msg = '    Downloading json for submission %s' % str(submission.id)
+    msg += "\n" if VERBOSE else "\r"
     json_to_file(submission.attributes, output_dir, "submission_" + str(submission.id) + '.json', msg)
 
     if hasattr(submission, "attachments"):
         for attachment in submission.attachments:
             msg = '      Downloading attachment: %s' % str(attachment['display_name'])
+            msg += "\n" if VERBOSE else "\r"
             download_file(attachment['url'], output_dir + "attachments/", str(attachment['display_name']), msg)
 
     # Loop through comments and download them
@@ -136,10 +140,12 @@ def download_submission(submission, output_dir):
 def download_assignment_comment(comment, output_dir):
     # Download comment json and any attachment
     msg = '    Downloading json for comment %s' % str(comment['id'])
+    msg += "\n" if VERBOSE else "\r"
     #json_to_file(comment, output_dir, "comment_" + str(comment['id']) + '.json', msg)
     if "attachments" in comment.keys():
         for sub_comment_attachment in comment['attachments']:
             msg = '        Downloading attachment: %s' % str(sub_comment_attachment['display_name'])
+            msg += "\n" if VERBOSE else "\r"
             download_file(sub_comment_attachment['url'], output_dir + 'attachments/', sub_comment_attachment['display_name'], msg)
 
 def get_user_id(canvas):
@@ -217,6 +223,8 @@ if __name__ == "__main__":
             if currentArgument in ("--no_download"):
                 print("Skip any download, just print IDs\n")
                 globals()['NO_DOWNLOAD'] = True
+            if currentArgument in ("--verbose"):
+                globals()["VERBOSE"] = True
         main()
     except Exception as e:
         print("Exiting due to uncaught exception:")
